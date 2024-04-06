@@ -1,9 +1,9 @@
-package database
+package gorm_repositories
 
 import (
 	"testing"
 
-	"github.com/Wendller/goexpert/apis/internal/entity"
+	"github.com/Wendller/goexpert/apis/internal/domain/entities"
 	"github.com/stretchr/testify/assert"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
@@ -16,14 +16,14 @@ func TestInsertUser(t *testing.T) {
 			t.Error(err)
 		}
 
-		db.AutoMigrate(&entity.User{})
-		user, _ := entity.NewUser("John Doe", "john@mail.com", "123456")
-		userDB := NewUser(db)
+		db.AutoMigrate(&entities.User{})
+		user, _ := entities.NewUser("John Doe", "john@mail.com", "123456")
+		userRepository := NewUserRepository(db)
 
-		err = userDB.Create(user)
+		err = userRepository.Create(user)
 		assert.Nil(t, err)
 
-		var createdUser entity.User
+		var createdUser entities.User
 		err = db.First(&createdUser, "id = ?", user.ID).Error
 
 		assert.Nil(t, err)
@@ -38,14 +38,14 @@ func TestFindUserByEmail(t *testing.T) {
 			t.Error(err)
 		}
 
-		db.AutoMigrate(&entity.User{})
-		user, _ := entity.NewUser("John Doe", "john@mail.com", "123456")
-		userDB := NewUser(db)
+		db.AutoMigrate(&entities.User{})
+		user, _ := entities.NewUser("John Doe", "john@mail.com", "123456")
+		userRepository := NewUserRepository(db)
 
-		err = userDB.Create(user)
+		err = userRepository.Create(user)
 		assert.Nil(t, err)
 
-		createdUser, err := userDB.FindByEmail(user.Email)
+		createdUser, err := userRepository.FindByEmail(user.Email)
 
 		assert.Nil(t, err)
 		assert.Equal(t, createdUser.ID, user.ID)
