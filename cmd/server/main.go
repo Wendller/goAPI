@@ -46,6 +46,7 @@ func main() {
 
 	router.Post("/products", handlers.ProductHandler.CreateProduct)
 	router.Get("/products/{id}", handlers.ProductHandler.GetProduct)
+	router.Put("/products/{id}", handlers.ProductHandler.UpdateProduct)
 
 	http.ListenAndServe(":8080", router)
 }

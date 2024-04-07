@@ -4,7 +4,7 @@ import (
 	"errors"
 	"time"
 
-	entities "github.com/Wendller/goexpert/apis/pkg/entity"
+	"github.com/Wendller/goexpert/apis/pkg/entity"
 )
 
 var (
@@ -16,10 +16,10 @@ var (
 )
 
 type Product struct {
-	ID        entities.ID `json:"id"`
-	Name      string      `json:"name"`
-	Price     float64     `json:"price"`
-	CreatedAt time.Time   `json:"created_at"`
+	ID        entity.ID `json:"id"`
+	Name      string    `json:"name"`
+	Price     float64   `json:"price"`
+	CreatedAt time.Time `json:"created_at"`
 }
 
 func (p *Product) Validate() error {
@@ -27,7 +27,7 @@ func (p *Product) Validate() error {
 		return ErrRequiredID
 	}
 
-	if _, err := entities.ParseID(p.ID.String()); err != nil {
+	if _, err := entity.ParseID(p.ID.String()); err != nil {
 		return ErrInvalidID
 	}
 
@@ -48,7 +48,7 @@ func (p *Product) Validate() error {
 
 func NewProduct(name string, price float64) (*Product, error) {
 	product := &Product{
-		ID:        entities.NewID(),
+		ID:        entity.NewID(),
 		Name:      name,
 		Price:     price,
 		CreatedAt: time.Now(),

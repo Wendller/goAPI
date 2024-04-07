@@ -56,3 +56,25 @@ func (handler *ProductHandler) GetProduct(w http.ResponseWriter, r *http.Request
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(product)
 }
+
+func (handler *ProductHandler) UpdateProduct(w http.ResponseWriter, r *http.Request) {
+	input, err := inputs.NewUpdateProductInput(r)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	updateProductCommand := commands.NewUpdateProductCommand(handler.ProductRepository)
+
+	err = updateProductCommand.Execute(input)
+	if err != nil {
+		if err.Error() == "raw not found" {
+			w.WriteHeader(http.StatusNotFound)
+		} else {
+			w.WriteHeader(http.StatusInternalServerError)
+		}
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+}
