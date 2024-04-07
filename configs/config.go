@@ -1,8 +1,11 @@
 package configs
 
 import (
+	gorm_repositories "github.com/Wendller/goexpert/apis/internal/infra/database/repositories/gorm"
+	"github.com/Wendller/goexpert/apis/internal/infra/web/handlers"
 	"github.com/go-chi/jwtauth"
 	"github.com/spf13/viper"
+	"gorm.io/gorm"
 )
 
 type cfg struct {
@@ -40,4 +43,12 @@ func LoadConfig(path string) (*cfg, error) {
 	config.TokenAuth = jwtauth.New("HS256", []byte(config.JWTSecret), nil)
 
 	return config, nil
+}
+
+func InitializeRepositories(db *gorm.DB) *gorm_repositories.Repositories {
+	return gorm_repositories.NewRepositories(db)
+}
+
+func InitializeHandlers(repositories *gorm_repositories.Repositories) *handlers.Handlers {
+	return handlers.NewHandlers(repositories)
 }

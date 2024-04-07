@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"encoding/json"
 	"net/http"
 
 	"github.com/Wendller/goexpert/apis/internal/domain/commands"
@@ -19,19 +20,39 @@ func NewProductHandler(productRepository repositories.ProductRepository) *Produc
 }
 
 func (handler *ProductHandler) CreateProduct(w http.ResponseWriter, r *http.Request) {
-	input, err := inputs.NewCreateProductInput(r.Body)
+	input, err := inputs.NewCreateProductInput(r)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	command := commands.NewCreateProductCommand(handler.ProductRepository)
+	createProductCommand := commands.NewCreateProductCommand(handler.ProductRepository)
 
-	err = command.Execute(input)
+	err = createProductCommand.Execute(input)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
 	w.WriteHeader(http.StatusCreated)
+}
+
+func (handler *ProductHandler) GetProduct(w http.ResponseWriter, r *http.Request) {
+	input, err := inputs.NewGetProductInput(r)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	getProductCommand := commands.NewGetProductCommand(handler.ProductRepository)
+
+	product, err := getProductCommand.Execute(input)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(product)
 }

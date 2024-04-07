@@ -2,7 +2,7 @@ package inputs
 
 import (
 	"encoding/json"
-	"io"
+	"net/http"
 )
 
 type CreateProductInput struct {
@@ -10,10 +10,10 @@ type CreateProductInput struct {
 	Price float64 `json:"price"`
 }
 
-func NewCreateProductInput(params io.ReadCloser) (*CreateProductInput, error) {
+func NewCreateProductInput(request *http.Request) (*CreateProductInput, error) {
 	var input CreateProductInput
 
-	err := json.NewDecoder(params).Decode(&input)
+	err := json.NewDecoder(request.Body).Decode(&input)
 	if err != nil {
 		return nil, err
 	}

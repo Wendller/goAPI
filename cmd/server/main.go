@@ -7,8 +7,8 @@ import (
 
 	"github.com/Wendller/goexpert/apis/configs"
 	"github.com/Wendller/goexpert/apis/internal/domain/entities"
-	gorm_repositories "github.com/Wendller/goexpert/apis/internal/infra/database/repositories/gorm"
-	"github.com/Wendller/goexpert/apis/internal/infra/web/handlers"
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -38,9 +38,14 @@ func main() {
 	}
 	db.AutoMigrate(&entities.User{}, &entities.Product{})
 
-	productRepository := gorm_repositories.NewProductRepository(db)
-	productHandler := handlers.NewProductHandler(productRepository)
+	repositories := configs.InitializeRepositories(db)
+	handlers := configs.InitializeHandlers(repositories)
 
-	http.HandleFunc("/products", productHandler.CreateProduct)
-	http.ListenAndServe(":8080", nil)
+	router := chi.NewRouter()
+	router.Use(middleware.Logger)
+
+	router.Post("/products", handlers.ProductHandler.CreateProduct)
+	router.Get("/products/{id}", handlers.ProductHandler.GetProduct)
+
+	http.ListenAndServe(":8080", router)
 }
