@@ -3,7 +3,6 @@ package configs
 import (
 	gorm_repositories "github.com/Wendller/goexpert/apis/internal/infra/database/repositories/gorm"
 	"github.com/Wendller/goexpert/apis/internal/infra/web/handlers"
-	"github.com/go-chi/jwtauth"
 	"github.com/spf13/viper"
 	"gorm.io/gorm"
 )
@@ -16,9 +15,6 @@ type cfg struct {
 	DBPassword    string `mapstructure:"DATABASE_PASSWORD"`
 	DBName        string `mapstructure:"DATABASE_NAME"`
 	WebServerPort string `mapstructure:"WEB_SERVER_POST"`
-	JWTSecret     string `mapstructure:"JWT_SECRET"`
-	JWTExpiresIn  int    `mapstructure:"JWT_EXPIRES_IN"`
-	TokenAuth     *jwtauth.JWTAuth
 }
 
 var config *cfg
@@ -39,8 +35,6 @@ func LoadConfig(path string) (*cfg, error) {
 	if err != nil {
 		panic(err)
 	}
-
-	config.TokenAuth = jwtauth.New("HS256", []byte(config.JWTSecret), nil)
 
 	return config, nil
 }

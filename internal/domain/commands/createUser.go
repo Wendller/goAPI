@@ -5,7 +5,7 @@ import (
 	"github.com/Wendller/goexpert/apis/internal/domain/entities"
 	"github.com/Wendller/goexpert/apis/internal/domain/inputs"
 	"github.com/Wendller/goexpert/apis/internal/domain/repositories"
-	chyptograhpy_adapter "github.com/Wendller/goexpert/apis/internal/infra/cryptography"
+	chyptograhpy_hasher "github.com/Wendller/goexpert/apis/internal/infra/cryptography"
 )
 
 type CreateUserCommand struct {
@@ -24,7 +24,7 @@ func (command *CreateUserCommand) Execute(input *inputs.CreateUserInput) error {
 		return customerrors.ErrUserAlreadyExists
 	}
 
-	bcryptHasher := chyptograhpy_adapter.NewBcryptHasher()
+	bcryptHasher := chyptograhpy_hasher.NewBcryptHasher()
 
 	passwordHash, err := bcryptHasher.Hash(input.Password)
 	if err != nil {
