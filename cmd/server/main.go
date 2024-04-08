@@ -7,6 +7,7 @@ import (
 
 	"github.com/Wendller/goexpert/apis/configs"
 	"github.com/Wendller/goexpert/apis/internal/domain/entities"
+	"github.com/Wendller/goexpert/apis/internal/infra/web/routes"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"gorm.io/driver/sqlite"
@@ -44,11 +45,7 @@ func main() {
 	router := chi.NewRouter()
 	router.Use(middleware.Logger)
 
-	router.Post("/products", handlers.ProductHandler.CreateProduct)
-	router.Get("/products", handlers.ProductHandler.ListProducts)
-	router.Get("/products/{id}", handlers.ProductHandler.GetProduct)
-	router.Put("/products/{id}", handlers.ProductHandler.UpdateProduct)
-	router.Delete("/products/{id}", handlers.ProductHandler.DeleteProduct)
+	routes.SetupRoutes(router, handlers)
 
 	http.ListenAndServe(":8080", router)
 }
