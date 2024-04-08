@@ -2,8 +2,6 @@ package main
 
 import (
 	"net/http"
-	"os"
-	"path/filepath"
 
 	"github.com/Wendller/goexpert/apis/configs"
 	"github.com/Wendller/goexpert/apis/internal/domain/entities"
@@ -15,23 +13,10 @@ import (
 )
 
 func main() {
-	currentDir, err := os.Getwd()
+	_, err := configs.LoadConfig(".")
 	if err != nil {
 		panic(err)
 	}
-
-	serverDir := filepath.Join(currentDir, "cmd", "server")
-
-	err = os.Chdir(serverDir)
-	if err != nil {
-		panic(err)
-	}
-
-	_, err = configs.LoadConfig(serverDir)
-	if err != nil {
-		panic(err)
-	}
-	defer os.Chdir(currentDir)
 
 	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
 	if err != nil {
