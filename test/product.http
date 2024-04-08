@@ -37,3 +37,15 @@ Content-Type: application/json
 # @name deleteProduct
 DELETE {{baseURL}}/products/fa9b6da0-be21-4b7e-9de8-461163004599
 Content-Type: application/json
+
+###
+
+# @name createUser
+POST {{baseURL}}/users
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john@mail.com",
+  "password": "123456"
+}
