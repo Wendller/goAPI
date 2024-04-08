@@ -13,4 +13,5 @@ func SetupRoutes(router *chi.Mux, handlers *handlers.Handlers) {
 	router.Delete("/products/{id}", handlers.ProductHandler.DeleteProduct)
 
 	router.Post("/users", handlers.UserHandler.CreateUser)
+	router.Post("/users/sessions", handlers.UserHandler.SignInUser)
 }
