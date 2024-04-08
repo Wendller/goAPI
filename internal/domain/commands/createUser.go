@@ -1,9 +1,11 @@
 package commands
 
 import (
+	customerrors "github.com/Wendller/goexpert/apis/internal/domain/customErrors"
 	"github.com/Wendller/goexpert/apis/internal/domain/entities"
 	"github.com/Wendller/goexpert/apis/internal/domain/inputs"
 	"github.com/Wendller/goexpert/apis/internal/domain/repositories"
+	chyptograhpy_adapter "github.com/Wendller/goexpert/apis/internal/infra/cryptography"
 )
 
 type CreateUserCommand struct {
@@ -17,7 +19,19 @@ func NewCreateUserCommand(userRepository repositories.UserRepository) *CreateUse
 }
 
 func (command *CreateUserCommand) Execute(input *inputs.CreateUserInput) error {
-	user, err := entities.NewUser(input.Name, input.Email, input.Password)
+	userWithSameCredential, _ := command.UserRepository.FindByEmail(input.Email)
+	if userWithSameCredential != nil {
+		return customerrors.ErrUserAlreadyExists
+	}
+
+	bcryptHasher := chyptograhpy_adapter.NewBcryptHasher()
+
+	passwordHash, err := bcryptHasher.Hash(input.Password)
+	if err != nil {
+		return err
+	}
+
+	user, err := entities.NewUser(input.Name, input.Email, string(passwordHash))
 	if err != nil {
 		return err
 	}

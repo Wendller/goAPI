@@ -2,7 +2,6 @@ package entities
 
 import (
 	"github.com/Wendller/goexpert/apis/pkg/entity"
-	"golang.org/x/crypto/bcrypt"
 )
 
 type User struct {
@@ -13,21 +12,10 @@ type User struct {
 }
 
 func NewUser(name, email, password string) (*User, error) {
-	passwordHash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-	if err != nil {
-		return nil, err
-	}
-
 	return &User{
 		ID:       entity.NewID(),
 		Name:     name,
 		Email:    email,
-		Password: string(passwordHash),
+		Password: password,
 	}, nil
-}
-
-func (u *User) ValidatePassword(password string) bool {
-	err := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password))
-
-	return err == nil
 }
