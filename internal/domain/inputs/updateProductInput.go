@@ -2,9 +2,9 @@ package inputs
 
 import (
 	"encoding/json"
-	"errors"
 	"net/http"
 
+	customerrors "github.com/Wendller/goexpert/apis/internal/domain/customErrors"
 	"github.com/go-chi/chi/v5"
 )
 
@@ -19,7 +19,7 @@ func NewUpdateProductInput(request *http.Request) (*UpdateProductInput, error) {
 
 	id := chi.URLParam(request, "id")
 	if id == "" {
-		return nil, errors.New("id param is empty")
+		return nil, customerrors.ErrEmptyID
 	}
 
 	err := json.NewDecoder(request.Body).Decode(&input)

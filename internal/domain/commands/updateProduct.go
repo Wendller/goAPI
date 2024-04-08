@@ -1,8 +1,6 @@
 package commands
 
 import (
-	"errors"
-
 	"github.com/Wendller/goexpert/apis/internal/domain/entities"
 	"github.com/Wendller/goexpert/apis/internal/domain/inputs"
 	"github.com/Wendller/goexpert/apis/internal/domain/repositories"
@@ -22,7 +20,7 @@ func NewUpdateProductCommand(productRepository repositories.ProductRepository) *
 func (command *UpdateProductCommand) Execute(input *inputs.UpdateProductInput) error {
 	_, err := command.ProductRepository.FindByID(input.Id)
 	if err != nil {
-		return errors.New("raw not found")
+		return err
 	}
 
 	id, _ := entity.ParseID(input.Id)

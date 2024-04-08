@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/Wendller/goexpert/apis/internal/domain/commands"
+	customerrors "github.com/Wendller/goexpert/apis/internal/domain/customErrors"
 	"github.com/Wendller/goexpert/apis/internal/domain/inputs"
 	"github.com/Wendller/goexpert/apis/internal/domain/repositories"
 )
@@ -57,6 +58,26 @@ func (handler *ProductHandler) GetProduct(w http.ResponseWriter, r *http.Request
 	json.NewEncoder(w).Encode(product)
 }
 
+func (handler *ProductHandler) ListProducts(w http.ResponseWriter, r *http.Request) {
+	input, err := inputs.NewListProductsInput(r)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	listProductsCommand := commands.NewListProductsCommand(handler.ProductRepository)
+
+	products, err := listProductsCommand.Execute(input)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(products)
+}
+
 func (handler *ProductHandler) UpdateProduct(w http.ResponseWriter, r *http.Request) {
 	input, err := inputs.NewUpdateProductInput(r)
 	if err != nil {
@@ -68,7 +89,7 @@ func (handler *ProductHandler) UpdateProduct(w http.ResponseWriter, r *http.Requ
 
 	err = updateProductCommand.Execute(input)
 	if err != nil {
-		if err.Error() == "raw not found" {
+		if err == customerrors.ErrResourceNotFound {
 			w.WriteHeader(http.StatusNotFound)
 		} else {
 			w.WriteHeader(http.StatusInternalServerError)
@@ -77,4 +98,26 @@ func (handler *ProductHandler) UpdateProduct(w http.ResponseWriter, r *http.Requ
 	}
 
 	w.WriteHeader(http.StatusOK)
+}
+
+func (handler *ProductHandler) DeleteProduct(w http.ResponseWriter, r *http.Request) {
+	input, err := inputs.NewDeleteProductInput(r)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	deleteProductCommand := commands.NewDeleteProductCommand(handler.ProductRepository)
+
+	err = deleteProductCommand.Execute(input)
+	if err != nil {
+		if err == customerrors.ErrResourceNotFound {
+			w.WriteHeader(http.StatusNotFound)
+		} else {
+			w.WriteHeader(http.StatusInternalServerError)
+		}
+		return
+	}
+
+	w.WriteHeader(http.StatusNoContent)
 }

@@ -45,8 +45,10 @@ func main() {
 	router.Use(middleware.Logger)
 
 	router.Post("/products", handlers.ProductHandler.CreateProduct)
+	router.Get("/products", handlers.ProductHandler.ListProducts)
 	router.Get("/products/{id}", handlers.ProductHandler.GetProduct)
 	router.Put("/products/{id}", handlers.ProductHandler.UpdateProduct)
+	router.Delete("/products/{id}", handlers.ProductHandler.DeleteProduct)
 
 	http.ListenAndServe(":8080", router)
 }

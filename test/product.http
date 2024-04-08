@@ -17,6 +17,12 @@ Content-Type: application/json
 
 ###
 
+# @name listProducts
+GET {{baseURL}}/products
+Content-Type: application/json
+
+###
+
 # @name updateProduct
 PUT {{baseURL}}/products/fa9b6da0-be21-4b7e-9de8-461163004599
 Content-Type: application/json
@@ -25,3 +31,9 @@ Content-Type: application/json
   "name": "New Product Name",
   "price": 400
 }
+
+###
+
+# @name deleteProduct
+DELETE {{baseURL}}/products/fa9b6da0-be21-4b7e-9de8-461163004599
+Content-Type: application/json

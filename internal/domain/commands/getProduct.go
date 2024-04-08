@@ -1,6 +1,7 @@
 package commands
 
 import (
+	customerrors "github.com/Wendller/goexpert/apis/internal/domain/customErrors"
 	"github.com/Wendller/goexpert/apis/internal/domain/entities"
 	"github.com/Wendller/goexpert/apis/internal/domain/inputs"
 	"github.com/Wendller/goexpert/apis/internal/domain/repositories"
@@ -19,7 +20,7 @@ func NewGetProductCommand(productRepository repositories.ProductRepository) *Get
 func (command *GetProductCommand) Execute(input *inputs.GetProductInput) (*entities.Product, error) {
 	product, err := command.ProductRepository.FindByID(input.Id)
 	if err != nil {
-		return nil, err
+		return nil, customerrors.ErrResourceNotFound
 	}
 
 	return product, nil
