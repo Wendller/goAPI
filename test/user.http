@@ -1,0 +1,11 @@
+@baseURL = http://localhost:8080
+
+# @name createUser
+POST {{baseURL}}/users
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john@mail.com",
+  "password": "123456"
+}
