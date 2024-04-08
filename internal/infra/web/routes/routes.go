@@ -1,17 +1,28 @@
 package routes
 
 import (
+	"github.com/Wendller/goexpert/apis/internal/infra/auth"
 	"github.com/Wendller/goexpert/apis/internal/infra/web/handlers"
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/jwtauth"
 )
 
 func SetupRoutes(router *chi.Mux, handlers *handlers.Handlers) {
-	router.Post("/products", handlers.ProductHandler.CreateProduct)
-	router.Get("/products", handlers.ProductHandler.ListProducts)
-	router.Get("/products/{id}", handlers.ProductHandler.GetProduct)
-	router.Put("/products/{id}", handlers.ProductHandler.UpdateProduct)
-	router.Delete("/products/{id}", handlers.ProductHandler.DeleteProduct)
+	JWTAuthConfig := auth.NewJWTAuthConfig()
+	tokenAuth := JWTAuthConfig.JWT
 
-	router.Post("/users", handlers.UserHandler.CreateUser)
-	router.Post("/users/sessions", handlers.UserHandler.SignInUser)
+	router.Route("/products", func(r chi.Router) {
+		r.Use(jwtauth.Verifier(tokenAuth))
+		r.Use(jwtauth.Authenticator)
+		r.Post("/", handlers.ProductHandler.CreateProduct)
+		r.Get("/", handlers.ProductHandler.ListProducts)
+		r.Get("/{id}", handlers.ProductHandler.GetProduct)
+		r.Put("/{id}", handlers.ProductHandler.UpdateProduct)
+		r.Delete("/{id}", handlers.ProductHandler.DeleteProduct)
+	})
+
+	router.Route("/users", func(r chi.Router) {
+		r.Post("/", handlers.UserHandler.CreateUser)
+		r.Post("/sessions", handlers.UserHandler.SignInUser)
+	})
 }

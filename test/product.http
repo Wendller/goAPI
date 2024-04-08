@@ -1,4 +1,16 @@
 @baseURL = http://localhost:8080
+@authToken = {{signInUser.response.body.access_token}}
+
+# @name signInUser
+POST {{baseURL}}/users/sessions
+Content-Type: application/json
+
+{
+  "email": "john@mail.com",
+  "password": "123456"
+}
+
+###
 
 # @name createProduct
 POST {{baseURL}}/products
@@ -14,18 +26,21 @@ Content-Type: application/json
 # @name getProduct
 GET {{baseURL}}/products/fa9b6da0-be21-4b7e-9de8-461163004598
 Content-Type: application/json
+Authorization: Bearer {{authToken}}
 
 ###
 
 # @name listProducts
 GET {{baseURL}}/products
 Content-Type: application/json
+Authorization: Bearer {{authToken}}
 
 ###
 
 # @name updateProduct
 PUT {{baseURL}}/products/fa9b6da0-be21-4b7e-9de8-461163004599
 Content-Type: application/json
+Authorization: Bearer {{authToken}}
 
 {
   "name": "New Product Name",
@@ -37,3 +52,4 @@ Content-Type: application/json
 # @name deleteProduct
 DELETE {{baseURL}}/products/fa9b6da0-be21-4b7e-9de8-461163004599
 Content-Type: application/json
+Authorization: Bearer {{authToken}}
