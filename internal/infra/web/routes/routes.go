@@ -3,6 +3,7 @@ package routes
 import (
 	"github.com/Wendller/goexpert/apis/internal/infra/auth"
 	"github.com/Wendller/goexpert/apis/internal/infra/web/handlers"
+	"github.com/Wendller/goexpert/apis/internal/infra/web/middlewares"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/jwtauth"
 )
@@ -11,6 +12,7 @@ func SetupRoutes(router *chi.Mux, handlers *handlers.Handlers) {
 	JWTAuthConfig := auth.NewJWTAuthConfig()
 	tokenAuth := JWTAuthConfig.JWT
 
+	router.Use(middlewares.LogRequest)
 	router.Route("/products", func(r chi.Router) {
 		r.Use(jwtauth.Verifier(tokenAuth))
 		r.Use(jwtauth.Authenticator)
