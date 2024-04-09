@@ -20,10 +20,24 @@ func NewUserHandler(userRepository repositories.UserRepository) *UserHandler {
 	}
 }
 
+// SignIn user godoc
+// @Summary Login user
+// @Description Authenticate user with jwt
+// @Tags users
+// @Accept json
+// @Produce json
+// @Param request body inputs.SignInUsetInput true "user credentials"
+// @Success 200 {object} commands.SignInResponse
+// @Failure 400 {object} Error
+// @Failure 401 {object} Error
+// @Failure 500 {object} Error
+// @Router /users/sessions [post]
 func (handler *UserHandler) SignInUser(w http.ResponseWriter, r *http.Request) {
 	input, err := inputs.NewSignInUserInput(r)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
+		error := Error{Message: err.Error()}
+		json.NewEncoder(w).Encode(error)
 		return
 	}
 
@@ -36,6 +50,8 @@ func (handler *UserHandler) SignInUser(w http.ResponseWriter, r *http.Request) {
 		} else {
 			w.WriteHeader(http.StatusInternalServerError)
 		}
+		error := Error{Message: err.Error()}
+		json.NewEncoder(w).Encode(error)
 		return
 	}
 
@@ -44,10 +60,23 @@ func (handler *UserHandler) SignInUser(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(accessToken)
 }
 
+// Create user godoc
+// @Summary Create user
+// @Description Create user
+// @Tags users
+// @Accept json
+// @Produce json
+// @Param request body inputs.CreateUserInput true "user request"
+// @Success 201
+// @Failure 400
+// @Failure 500 {object} Error
+// @Router /users [post]
 func (handler *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	input, err := inputs.NewCreateUserInput(r)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
+		error := Error{Message: err.Error()}
+		json.NewEncoder(w).Encode(error)
 		return
 	}
 
@@ -56,6 +85,8 @@ func (handler *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	err = createUserCommand.Execute(input)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
+		error := Error{Message: err.Error()}
+		json.NewEncoder(w).Encode(error)
 		return
 	}
 

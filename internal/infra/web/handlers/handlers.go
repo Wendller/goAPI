@@ -7,6 +7,10 @@ type Handlers struct {
 	UserHandler    *UserHandler
 }
 
+type Error struct {
+	Message string `json:"message"`
+}
+
 func NewHandlers(repositories *gorm_repositories.Repositories) *Handlers {
 	return &Handlers{
 		ProductHandler: NewProductHandler(repositories.ProductRepository),
