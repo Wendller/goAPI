@@ -1,6 +1,6 @@
 package repositories
 
-import "github.com/Wendller/goexpert/apis/internal/domain/entities"
+import "github.com/Wendller/goexpert/goAPI/internal/domain/entities"
 
 type ProductRepository interface {
 	Create(product *entities.Product) error

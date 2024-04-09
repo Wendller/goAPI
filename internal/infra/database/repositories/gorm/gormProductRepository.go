@@ -3,7 +3,7 @@ package gorm_repositories
 import (
 	"errors"
 
-	"github.com/Wendller/goexpert/apis/internal/domain/entities"
+	"github.com/Wendller/goexpert/goAPI/internal/domain/entities"
 	"gorm.io/gorm"
 )
 

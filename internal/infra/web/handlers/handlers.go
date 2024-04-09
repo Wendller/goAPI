@@ -1,6 +1,6 @@
 package handlers
 
-import gorm_repositories "github.com/Wendller/goexpert/apis/internal/infra/database/repositories/gorm"
+import gorm_repositories "github.com/Wendller/goexpert/goAPI/internal/infra/database/repositories/gorm"
 
 type Handlers struct {
 	ProductHandler *ProductHandler

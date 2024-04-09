@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	customerrors "github.com/Wendller/goexpert/apis/internal/domain/customErrors"
+	customerrors "github.com/Wendller/goexpert/goAPI/internal/domain/customErrors"
 	"github.com/go-chi/chi/v5"
 )
 

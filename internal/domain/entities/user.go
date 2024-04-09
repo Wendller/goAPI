@@ -1,7 +1,7 @@
 package entities
 
 import (
-	"github.com/Wendller/goexpert/apis/pkg/entity"
+	"github.com/Wendller/goexpert/goAPI/pkg/entity"
 )
 
 type User struct {

@@ -3,7 +3,7 @@ package gorm_repositories
 import (
 	"testing"
 
-	"github.com/Wendller/goexpert/apis/internal/domain/entities"
+	"github.com/Wendller/goexpert/goAPI/internal/domain/entities"
 	"github.com/stretchr/testify/assert"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"

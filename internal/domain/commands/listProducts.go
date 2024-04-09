@@ -1,9 +1,9 @@
 package commands
 
 import (
-	"github.com/Wendller/goexpert/apis/internal/domain/entities"
-	"github.com/Wendller/goexpert/apis/internal/domain/inputs"
-	"github.com/Wendller/goexpert/apis/internal/domain/repositories"
+	"github.com/Wendller/goexpert/goAPI/internal/domain/entities"
+	"github.com/Wendller/goexpert/goAPI/internal/domain/inputs"
+	"github.com/Wendller/goexpert/goAPI/internal/domain/repositories"
 )
 
 type ListProductsCommand struct {

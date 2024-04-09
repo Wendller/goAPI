@@ -1,10 +1,10 @@
 package commands
 
 import (
-	customerrors "github.com/Wendller/goexpert/apis/internal/domain/customErrors"
-	"github.com/Wendller/goexpert/apis/internal/domain/entities"
-	"github.com/Wendller/goexpert/apis/internal/domain/inputs"
-	"github.com/Wendller/goexpert/apis/internal/domain/repositories"
+	customerrors "github.com/Wendller/goexpert/goAPI/internal/domain/customErrors"
+	"github.com/Wendller/goexpert/goAPI/internal/domain/entities"
+	"github.com/Wendller/goexpert/goAPI/internal/domain/inputs"
+	"github.com/Wendller/goexpert/goAPI/internal/domain/repositories"
 )
 
 type GetProductCommand struct {

@@ -4,7 +4,7 @@ import (
 	"errors"
 	"time"
 
-	"github.com/Wendller/goexpert/apis/pkg/entity"
+	"github.com/Wendller/goexpert/goAPI/pkg/entity"
 )
 
 var (

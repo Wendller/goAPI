@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/Wendller/goexpert/apis/internal/infra/auth"
+	"github.com/Wendller/goexpert/goAPI/internal/infra/auth"
 )
 
 type JWTEncrypter struct{}

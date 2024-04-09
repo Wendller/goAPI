@@ -1,11 +1,11 @@
 package commands
 
 import (
-	customerrors "github.com/Wendller/goexpert/apis/internal/domain/customErrors"
-	"github.com/Wendller/goexpert/apis/internal/domain/entities"
-	"github.com/Wendller/goexpert/apis/internal/domain/inputs"
-	"github.com/Wendller/goexpert/apis/internal/domain/repositories"
-	chyptograhpy_hasher "github.com/Wendller/goexpert/apis/internal/infra/cryptography"
+	customerrors "github.com/Wendller/goexpert/goAPI/internal/domain/customErrors"
+	"github.com/Wendller/goexpert/goAPI/internal/domain/entities"
+	"github.com/Wendller/goexpert/goAPI/internal/domain/inputs"
+	"github.com/Wendller/goexpert/goAPI/internal/domain/repositories"
+	chyptograhpy_hasher "github.com/Wendller/goexpert/goAPI/internal/infra/cryptography"
 )
 
 type CreateUserCommand struct {
