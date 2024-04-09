@@ -3,13 +3,24 @@ package main
 import (
 	"net/http"
 
-	"github.com/Wendller/goexpert/apis/configs"
-	"github.com/Wendller/goexpert/apis/internal/domain/entities"
-	"github.com/Wendller/goexpert/apis/internal/infra/web/routes"
+	"github.com/Wendller/goexpert/goAPI/configs"
+	"github.com/Wendller/goexpert/goAPI/internal/domain/entities"
+	"github.com/Wendller/goexpert/goAPI/internal/infra/web/routes"
 	"github.com/go-chi/chi/v5"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
+
+// @title GO API
+// @version 1.0
+// @description Product API with JWT authentication
+// @contact.name Wendler
+
+// @host localhost:8080
+// @BasePath /
+// @securityDefinitions.apiKey ApiKeyAuth
+// @in header
+// @name Authorization
 
 func main() {
 	_, err := configs.LoadConfig(".")

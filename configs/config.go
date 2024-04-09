@@ -1,8 +1,8 @@
 package configs
 
 import (
-	gorm_repositories "github.com/Wendller/goexpert/apis/internal/infra/database/repositories/gorm"
-	"github.com/Wendller/goexpert/apis/internal/infra/web/handlers"
+	gorm_repositories "github.com/Wendller/goexpert/goAPI/internal/infra/database/repositories/gorm"
+	"github.com/Wendller/goexpert/goAPI/internal/infra/web/handlers"
 	"github.com/spf13/viper"
 	"gorm.io/gorm"
 )

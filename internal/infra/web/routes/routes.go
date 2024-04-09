@@ -1,11 +1,13 @@
 package routes
 
 import (
-	"github.com/Wendller/goexpert/apis/internal/infra/auth"
-	"github.com/Wendller/goexpert/apis/internal/infra/web/handlers"
-	"github.com/Wendller/goexpert/apis/internal/infra/web/middlewares"
+	_ "github.com/Wendller/goexpert/goAPI/docs"
+	"github.com/Wendller/goexpert/goAPI/internal/infra/auth"
+	"github.com/Wendller/goexpert/goAPI/internal/infra/web/handlers"
+	"github.com/Wendller/goexpert/goAPI/internal/infra/web/middlewares"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/jwtauth"
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 func SetupRoutes(router *chi.Mux, handlers *handlers.Handlers) {
@@ -27,4 +29,6 @@ func SetupRoutes(router *chi.Mux, handlers *handlers.Handlers) {
 		r.Post("/", handlers.UserHandler.CreateUser)
 		r.Post("/sessions", handlers.UserHandler.SignInUser)
 	})
+
+	router.Get("/docs/*", httpSwagger.Handler(httpSwagger.URL("http://localhost:8080/docs/doc.json")))
 }
